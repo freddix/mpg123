@@ -1,11 +1,11 @@
 Summary:	MPEG 3 audio player
 Name:		mpg123
-Version:	1.14.4
-Release:	2
+Version:	1.20.1
+Release:	1
 License:	LGPL, GPL (mpglib)
 Group:		Applications/Sound
 Source0:	http://downloads.sourceforge.net/mpg123/%{name}-%{version}.tar.bz2
-# Source0-md5:	a72d0c60a1d7dbec7cfe966bc11672bf
+# Source0-md5:	1b3e8765aa608e306ede1ec507b67b23
 URL:		http://www.mpg123.de/
 Patch1:		%{name}-am.patch
 BuildRequires:	alsa-lib-devel
@@ -35,6 +35,8 @@ An optimized MPEG Audio decoder library.
 Summary:	Header file for mpg123 library
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
+Requires:	alsa-lib-devel
+Requires:	pulseaudio-devel
 
 %description libs-devel
 Header file for mpg123 library.
@@ -71,6 +73,8 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/*.la
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -80,8 +84,12 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc doc/BENCHMARKING doc/BUGS ChangeLog README doc/README.remote doc/TODO doc/README.3DNOW
+%attr(755,root,root) %{_bindir}/mpg123
+%attr(755,root,root) %{_bindir}/mpg123-id3dump
+%attr(755,root,root) %{_bindir}/mpg123-strip
+%attr(755,root,root) %{_bindir}/out123
+
 %dir %{_libdir}/mpg123
-%attr(755,root,root) %{_bindir}/%{name}
 %attr(755,root,root) %{_libdir}/mpg123/output_alsa.*
 %attr(755,root,root) %{_libdir}/mpg123/output_dummy.*
 %attr(755,root,root) %{_libdir}/mpg123/output_pulse*
@@ -96,7 +104,6 @@ rm -rf $RPM_BUILD_ROOT
 %files libs-devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libmpg123.so
-%{_libdir}/libmpg123.la
 %{_includedir}/mpg123.h
 %{_pkgconfigdir}/libmpg123.pc
 
