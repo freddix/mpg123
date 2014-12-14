@@ -1,18 +1,17 @@
 Summary:	MPEG 3 audio player
 Name:		mpg123
-Version:	1.20.1
+Version:	1.21.0
 Release:	1
 License:	LGPL, GPL (mpglib)
 Group:		Applications/Sound
 Source0:	http://downloads.sourceforge.net/mpg123/%{name}-%{version}.tar.bz2
-# Source0-md5:	1b3e8765aa608e306ede1ec507b67b23
+# Source0-md5:	13a9df5d4e7aa110e4ae27cf30128ce9
 URL:		http://www.mpg123.de/
 Patch1:		%{name}-am.patch
 BuildRequires:	alsa-lib-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	pkg-config
-BuildRequires:	pulseaudio-devel
 Requires:	%{name}-libs = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -36,7 +35,6 @@ Summary:	Header file for mpg123 library
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	alsa-lib-devel
-Requires:	pulseaudio-devel
 
 %description libs-devel
 Header file for mpg123 library.
@@ -55,7 +53,7 @@ rm -rf libltdl
 %{__automake}
 %configure \
 	--enable-ltdl-install=no	\
-	--with-audio=alsa,pulse		\
+	--with-audio=alsa		\
 %ifarch %{ix86}
 	--with-cpu=x86			\
 %endif
@@ -92,7 +90,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/mpg123
 %attr(755,root,root) %{_libdir}/mpg123/output_alsa.*
 %attr(755,root,root) %{_libdir}/mpg123/output_dummy.*
-%attr(755,root,root) %{_libdir}/mpg123/output_pulse*
 %{_mandir}/man1/*
 
 %files libs
